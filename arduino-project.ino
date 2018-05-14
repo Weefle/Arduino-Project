@@ -27,6 +27,7 @@ void loop() {
       startRotation();
     }else{
       stopRotation();
+    }
     }else if (isMagnet(HALL_SENSOR_3)){
       if(tempe<15){
       startRotation();
@@ -45,7 +46,6 @@ void loop() {
   else if(tempe<15){
     }*/
   //Serial.println(tempe);
-}
 
 void startRotation(){
   //mettre code pour améliorer avancement d'un coté ou autre avec boolean
