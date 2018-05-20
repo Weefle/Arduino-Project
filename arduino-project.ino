@@ -1,5 +1,6 @@
 const int pinTemp = A0;
 const int B = 3975;
+int sens = 0;
 #define HALL_SENSOR_1 2
 #define HALL_SENSOR_2 7
 #define HALL_SENSOR_3 8
@@ -14,44 +15,42 @@ void setup() {
 }
 
 void loop() {
-  // if(used==false){
-  float tempe = getTemp();
+  float temp = getTemp();
   if(isMagnet(HALL_SENSOR_1)){
-    if(tempe>40){
-      startRotation();
+    if(temp>25||15<temp<25){
+      startRotation(1);
     }else{
       stopRotation();
     }
   }else if(isMagnet(HALL_SENSOR_2)){
-    if(15<=tempe<25){
-      startRotation();
+    if(temp>25){
+      startRotation(1);
+    }else if(temp<15){
+      startRotation(0);
     }else{
       stopRotation();
     }
     }else if (isMagnet(HALL_SENSOR_3)){
-      if(tempe<15){
-      startRotation();
+      if(temp<15||15<temp<25){
+      startRotation(0);
     }else{
       stopRotation();
     }
     }else{
       stopRotation();
     }
+    Serial.println(temp);
   }
-     /*if(tempe>40){
-      }
-  else if(15<=tempe<25){
-    
-  }
-  else if(tempe<15){
-    }*/
-  //Serial.println(tempe);
 
-void startRotation(){
+void startRotation(int sens){
   //mettre code pour améliorer avancement d'un coté ou autre avec boolean
-  digitalWrite(4, HIGH);
+  if(sens == 0){
+    digitalWrite(4, LOW);
+digitalWrite(5, HIGH);
+  }else if(sens == 1){
+    digitalWrite(4, HIGH);
 digitalWrite(5, LOW);
-//else LOW HIGH
+  }
 }
 
 void stopRotation(){
@@ -62,10 +61,6 @@ digitalWrite(5, LOW);
     digitalWrite(4, LOW);
 digitalWrite(5, LOW);
   }
-  /*digitalWrite(4, LOW);
-digitalWrite(5, LOW);
-Serial.println("Arret");*/
-//delay(time);
 }
 float getTemp(){
   int val = analogRead(pinTemp);
@@ -77,8 +72,6 @@ float getTemp(){
     float temperature = 1/(log(resistance/10000)/B+1/298.15)-273.15;
     return temperature;
     // Print the temperature to the serial console.
-   /* Serial.println(temperature); 
-    delay(1000);*/
 }
 boolean isMagnet(uint8_t magnet)
 {
