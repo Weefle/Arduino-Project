@@ -35,25 +35,41 @@ void impulsions()
   compteur = compteur + 1 ;
 }
 void loop() {
+<<<<<<< HEAD:arduino-project.ino
   sensors.requestTemperatures();
   float tempe = sensors.getTempCByIndex(0);
   float temp = getTemp();
   if(isMagnet(HALL_SENSOR_1)){
     if(temp>34 && tempe>34){
+=======
+  float temp = getTemp();
+  if(isMagnet(HALL_SENSOR_1)){
+    if(temp>25||15<temp<25){
+>>>>>>> 116abe41d4d0812b757a1ef408f7f740acb2340b:Arduino-Project.ino
       startRotation(1);
     }else{
       stopRotation();
     }
   }else if(isMagnet(HALL_SENSOR_2)){
+<<<<<<< HEAD:arduino-project.ino
     if(temp>34 && tempe>34){
       startRotation(1);
     }else if(temp<32 && tempe<32){
+=======
+    if(temp>25){
+      startRotation(1);
+    }else if(temp<15){
+>>>>>>> 116abe41d4d0812b757a1ef408f7f740acb2340b:Arduino-Project.ino
       startRotation(0);
     }else{
       stopRotation();
     }
     }else if (isMagnet(HALL_SENSOR_3)){
+<<<<<<< HEAD:arduino-project.ino
       if(temp<32 && tempe<32){
+=======
+      if(temp<15||15<temp<25){
+>>>>>>> 116abe41d4d0812b757a1ef408f7f740acb2340b:Arduino-Project.ino
       startRotation(0);
     }else{
       stopRotation();
@@ -61,7 +77,10 @@ void loop() {
     }else{
       stopRotation();
     }
+<<<<<<< HEAD:arduino-project.ino
     Serial.println(tempe);
+=======
+>>>>>>> 116abe41d4d0812b757a1ef408f7f740acb2340b:Arduino-Project.ino
     Serial.println(temp);
   }
 
@@ -95,6 +114,7 @@ float getTemp(){
     float temperature = 1/(log(resistance/10000)/B+1/298.15)-273.15;
     return temperature;
     // Print the temperature to the serial console.
+<<<<<<< HEAD:arduino-project.ino
 }
 float getVent(){
   //lecture du capteur
@@ -124,6 +144,8 @@ float getVent(){
 int getLux(){
   int valeur = analogRead(A4);
   return valeur/10;
+=======
+>>>>>>> 116abe41d4d0812b757a1ef408f7f740acb2340b:Arduino-Project.ino
 }
 boolean isMagnet(uint8_t magnet)
 {
