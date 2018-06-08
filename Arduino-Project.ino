@@ -15,7 +15,7 @@ volatile long compteur = 0;
 const int pinTemp = A0;
 const int B = 3975;
 int sens = 0;
-#define HALL_SENSOR_1 2
+#define HALL_SENSOR_1 6
 #define HALL_SENSOR_2 7
 #define HALL_SENSOR_3 8
 void setup() {
@@ -35,25 +35,28 @@ void impulsions()
   compteur = compteur + 1 ;
 }
 void loop() {
+  chrono = millis();
   sensors.requestTemperatures();
   float tempe = sensors.getTempCByIndex(0);
   float temp = getTemp();
+  int lux = getLux();
+  float vent = getVent();
   if(isMagnet(HALL_SENSOR_1)){
-    if(temp>34 && tempe>34){
+    if(temp>40 || tempe>28 || lux<10 || vent>40){
       startRotation(1);
     }else{
       stopRotation();
     }
-  }else if(isMagnet(HALL_SENSOR_2)){
-    if(temp>34 && tempe>34){
+  /*}else if(isMagnet(HALL_SENSOR_2)){
+    if(temp>25 || tempe>25 || lux<10 || vent>40){
       startRotation(1);
-    }else if(temp<32 && tempe<32){
+    }else if(temp<25 || tempe<25 || lux>10 || vent<40){
       startRotation(0);
     }else{
       stopRotation();
-    }
+    }*/
     }else if (isMagnet(HALL_SENSOR_3)){
-      if(temp<32 && tempe<32){
+      if(temp<25 || tempe<25 || lux>10 || vent<40){
       startRotation(0);
     }else{
       stopRotation();
@@ -61,12 +64,15 @@ void loop() {
     }else{
       stopRotation();
     }
-    Serial.println(tempe);
+    /*Serial.println(tempe);
     Serial.println(temp);
+    Serial.println(lux);
+    Serial.println(vent);*/
+    
   }
 
 void startRotation(int sens){
-  //mettre code pour améliorer avancement d'un coté ou autre avec boolean
+  //mettre code pour amÃ©liorer avancement d'un cotÃ© ou autre avec boolean
   if(sens == 0){
     digitalWrite(4, LOW);
 digitalWrite(5, HIGH);
@@ -98,24 +104,13 @@ float getTemp(){
 }
 float getVent(){
   //lecture du capteur
-    EtatILS = digitalRead(ILS);
-    
-    if(EtatILS == HIGH)
-    {
-    digitalWrite(5, HIGH);      // Allume la Led
-    }
-    else 
-    {
-    digitalWrite(5, LOW);      // Eteind la Led
-    }  
-     
-  chrono = millis();
+    EtatILS = digitalRead(ILS); 
   
-  if ((chrono - chrono_depart) >= duree_mesure)     // Test pour voir si temps du chrono >= durée de mesure
+  if ((chrono - chrono_depart) >= duree_mesure)     // Test pour voir si temps du chrono >= durÃ©e de mesure
   { 
-    VitesseVent = (2 * 3.14 * RayonDesBras * Coef_Etalonnage) * ((compteur/2) / (duree_mesure/1000))/3.6 ;   // compteur/2 (car 2 ILS/tour) et durée/1000 (car duree est en ms)
+    VitesseVent = (2 * 3.14 * RayonDesBras * Coef_Etalonnage) * ((compteur/2) / (duree_mesure/1000))/3.6 ;   // compteur/2 (car 2 ILS/tour) et durÃ©e/1000 (car duree est en ms)
                                                                                                              // division par 3,6 pour passer des m/sec en km/h
-    chrono_depart = millis();                      // remet le chrono de depart à 0
+    chrono_depart = millis();                      // remet le chrono de depart Ã  0
     compteur = 0;
   }
         
@@ -137,4 +132,5 @@ boolean isMagnet(uint8_t magnet)
     return false;//no,return false
   }
 }
+
 
