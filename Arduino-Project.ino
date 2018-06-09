@@ -83,13 +83,8 @@ digitalWrite(5, LOW);
 }
 
 void stopRotation(){
-  if(isMagnet(HALL_SENSOR_1)){
     digitalWrite(4, LOW);
 digitalWrite(5, LOW);
-  }else if(isMagnet(HALL_SENSOR_3)){
-    digitalWrite(4, LOW);
-digitalWrite(5, LOW);
-  }
 }
 float getTemp(){
   int val = analogRead(pinTemp);
