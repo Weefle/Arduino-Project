@@ -21,7 +21,7 @@ int sens = 0;
 void setup() {
   Serial.begin(9600);
   sensors.begin();
-  pinMode(2, INPUT);
+  pinMode(6, INPUT);
   pinMode(8, INPUT);
   pinMode(7, INPUT);
   pinMode(4, OUTPUT);
@@ -42,24 +42,24 @@ void loop() {
   int lux = getLux();
   float vent = getVent();
   if(isMagnet(HALL_SENSOR_1)){
-    if(temp>40 || tempe>28 || lux<10 || vent>40){
-      startRotation(1);
-    }else{
+    if(temp>25 || tempe>28 || lux>10 || vent<40){
       stopRotation();
+      }else if(temp<25 || tempe<20 || lux<10 || vent>40){
+      startRotation(1);
     }
-  /*}else if(isMagnet(HALL_SENSOR_2)){
-    if(temp>25 || tempe>25 || lux<10 || vent>40){
+  }else if(isMagnet(HALL_SENSOR_2)){
+    if(15<temp<25){
+      stopRotation();
+    }else if(temp<15 || tempe<20 || lux<10 || vent>40){
       startRotation(1);
-    }else if(temp<25 || tempe<25 || lux>10 || vent<40){
+    }else if(temp>25 || tempe>28 || lux>10 || vent<40){
       startRotation(0);
-    }else{
-      stopRotation();
-    }*/
+    }
     }else if (isMagnet(HALL_SENSOR_3)){
-      if(temp<25 || tempe<25 || lux>10 || vent<40){
-      startRotation(0);
-    }else{
+      if(temp<15 || tempe<20 || lux<10 || vent>40){
       stopRotation();
+    }else if(temp>15 || tempe>28 || lux>10 || vent<40){
+      startRotation(0);
     }
     }else{
       stopRotation();
