@@ -46,6 +46,8 @@ void loop() {
       stopRotation();
       }else if(temp<25 || tempe<20 || lux<10 || vent>40){
       startRotation(1);
+    }else{
+      stopRotation();
     }
   }else if(isMagnet(HALL_SENSOR_2)){
     if(15<temp<25){
@@ -54,12 +56,16 @@ void loop() {
       startRotation(1);
     }else if(temp>25 || tempe>28 || lux>10 || vent<40){
       startRotation(0);
+    }else{
+      stopRotation();
     }
     }else if (isMagnet(HALL_SENSOR_3)){
       if(temp<15 || tempe<20 || lux<10 || vent>40){
       stopRotation();
     }else if(temp>15 || tempe>28 || lux>10 || vent<40){
       startRotation(0);
+    }else{
+      stopRotation();
     }
     }else{
       stopRotation();
