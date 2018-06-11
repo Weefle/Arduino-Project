@@ -67,8 +67,6 @@ void loop() {
     }else{
       stopRotation();
     }
-    }else{
-      stopRotation();
     }
     /*Serial.println(tempe);
     Serial.println(temp);
